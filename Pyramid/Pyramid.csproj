@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Block\BlockBlue1.cs" />
+    <Compile Remove="Block\BlockBlue2.cs" />
+    <Compile Remove="Block\BlockGreen1.cs" />
+    <Compile Remove="Block\BlockGreen2.cs" />
+    <Compile Remove="Block\BlockGrey.cs" />
+    <Compile Remove="Block\BlockPink1.cs" />
+    <Compile Remove="Block\BlockPink2.cs" />
+  </ItemGroup>
+
+</Project>
