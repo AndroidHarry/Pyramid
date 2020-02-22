@@ -12,7 +12,10 @@ namespace Pyramid.Block
         //  由几个单元（点）组成
         int UnitNum { get; }
 
-        //  可以摆放成哪些形状
-        Point[,] Shapes { get; }
+        //  可以摆放成哪些平面形状
+        Point[,] FlatShapes { get; }
+
+        //  可以摆放成哪些立体形状
+        Point[,] Shape3Ds { get; }
     }
 }

@@ -8,12 +8,186 @@ namespace Pyramid
     {
         static void Main(string[] args)
         {
-            Do();
+            // DoTriangleGround();
+
+            DoPyramidGround();
 
             Console.Read();
         }
 
-        static void Do()
+        static void DoPyramidGround()
+        {
+            IBlock[] blocks = new IBlock[] {
+                new BlockPink2_4(),
+                new BlockRed1_1(), new BlockRed2_2(),
+                new BlockPurple_5(),
+                new BlockGreen1_6(),
+                new BlockGreen2_7(),
+                new BlockBlue1_8(), new BlockBlue2_9(),
+                new BlockYellow_10(),
+                new BlockGrey_11(),
+                new BlockPink1_3(),
+                new BlockWhite_12()
+            };
+
+            Console.WriteLine("Init:");
+
+            IGround g = new PyramidGround(5);
+            g.Init();
+            g.Print();
+
+            if (true)
+            {
+                #region place init block(s)
+                ////  one block 
+                //int value = 10;
+                //int bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(0, new Point(0, 0));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 12;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(0, new Point(2, 0));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 9;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.Shape3D(1, new Point(3, 1));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 5;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(0, new Point(0, 2));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 11;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(3, new Point(2, 2));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 4;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(0, new Point(0, 3));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 7;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.Shape3D(3, new Point(4, 4));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 8;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(2, new Point(0, 0, 1));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 3;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.Shape3D(2, new Point(1, 1, 1));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 2;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.ShapeFlat(1, new Point(3, 1, 1));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                ////  another block
+                //value = 6;
+                //bi = blocks.GetBlockIndexByValue(value);
+                //if (bi >= 0)
+                //{
+                //    IBlock block = blocks[bi];
+
+                //    Point[] pts = block.Shape3D(2, new Point(1, 2, 1));
+                //    g.Fill(pts, value);
+
+                //    blocks = blocks.CreateBlocksExcludeIndex(bi);
+                //}
+                #endregion
+            }
+
+            g.Print();
+
+            //return;
+
+            Console.WriteLine($"start:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
+
+            g.FillBlock(blocks, new Point(0, 0));
+
+            g.Print();
+
+            Console.WriteLine($"end:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
+        }
+
+        static void DoTriangleGround()
         {
             Console.WriteLine("Init:");
 
@@ -43,7 +217,7 @@ namespace Pyramid
                 {
                     IBlock block = blocks[bi];
 
-                    Point[] pts = block.Shape(6, new Point(0, 6));
+                    Point[] pts = block.ShapeFlat(6, new Point(0, 6));
                     g.Fill(pts, value);
 
                     blocks = blocks.CreateBlocksExcludeIndex(bi);
@@ -55,7 +229,7 @@ namespace Pyramid
                 {
                     IBlock block = blocks[bi];
 
-                    Point[] pts = block.Shape(1, new Point(2, 8));
+                    Point[] pts = block.ShapeFlat(1, new Point(2, 8));
                     g.Fill(pts, value);
 
                     blocks = blocks.CreateBlocksExcludeIndex(bi);

@@ -9,17 +9,14 @@ namespace Pyramid.Block
         public int Value { get => 12; }
 
         public int UnitNum { get => 5; }
-        public Point[,] Shapes
+        public Point[,] FlatShapes
         {
             get => new Point[4, 5] {
                 {
-                    new Point(0, 0),
-                    new Point(2, 0),
-                    new Point(0, 1),
-                    new Point(1, 1),
-                    new Point(2, 1)
-                },
-                {
+                    /* 0
+                     *     12 12 12
+                     *     12    12
+                     */
                     new Point(0, 0),
                     new Point(1, 0),
                     new Point(2, 0),
@@ -27,6 +24,22 @@ namespace Pyramid.Block
                     new Point(2, 1)
                 },
                 {
+                    /* 1
+                     *      12    12
+                     *      12 12 12
+                     */
+                    new Point(0, 0),
+                    new Point(2, 0),
+                    new Point(0, 1),
+                    new Point(1, 1),
+                    new Point(2, 1)
+                },
+                {
+                    /* 2
+                     *     12 12
+                     *     12
+                     *     12 12
+                     */
                     new Point(0, 0),
                     new Point(1, 0),
                     new Point(0, 1),
@@ -34,6 +47,11 @@ namespace Pyramid.Block
                     new Point(1, 2)
                 },
                 {
+                    /* 3
+                     *     12 12
+                     *        12
+                     *     12 12
+                     */
                     new Point(0, 0),
                     new Point(1, 0),
                     new Point(1, 1),
@@ -41,6 +59,12 @@ namespace Pyramid.Block
                     new Point(0, 2)
                 }
             };
+        }
+
+        public Point[,] Shape3Ds
+        {
+            //  TBD
+            get => null;
         }
     }
 }
