@@ -32,7 +32,7 @@ namespace Pyramid
 
             Console.WriteLine("Init:");
 
-            IGround g = new PyramidGround(5);
+            IGround g = new PyramidGround(4);  // 5 4
             g.Init();
             g.Print();
 
