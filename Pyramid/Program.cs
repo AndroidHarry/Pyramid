@@ -8,31 +8,34 @@ namespace Pyramid
     {
         static void Main(string[] args)
         {
-            // DoTriangleGround();
+            //Test();
+            //Console.Read();
+            //return;
+
+            //DoTriangleGround();
 
             DoPyramidGround();
 
             Console.Read();
         }
 
+        static void Test()
+        {
+            
+
+            Region.Test();
+        }
+
         static void DoPyramidGround()
         {
-            IBlock[] blocks = new IBlock[] {
-                new BlockPink2_4(),
-                new BlockRed1_1(), new BlockRed2_2(),
-                new BlockPurple_5(),
-                new BlockGreen1_6(),
-                new BlockGreen2_7(),
-                new BlockBlue1_8(), new BlockBlue2_9(),
-                new BlockYellow_10(),
-                new BlockGrey_11(),
-                new BlockPink1_3(),
-                new BlockWhite_12()
-            };
+            bool bZAsc = false;
+            int layerNum = 5;    // 5
+
+            Block.Block[] blocks = BlockGroup.CreateAll(bZAsc);
 
             Console.WriteLine("Init:");
 
-            IGround g = new PyramidGround(4);  // 5 4
+            IGround g = new PyramidGround(layerNum, bZAsc);
             g.Init();
             g.Print();
 
@@ -180,7 +183,8 @@ namespace Pyramid
 
             Console.WriteLine($"start:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
 
-            g.FillBlock(blocks, new Point(0, 0));
+
+            g.FillBlock(blocks, bZAsc ? new Point(0, 0, 0) : new Point(0, 0, layerNum - 1));
 
             g.Print();
 
@@ -191,18 +195,7 @@ namespace Pyramid
         {
             Console.WriteLine("Init:");
 
-            IBlock[] blocks = new IBlock[] {
-                new BlockPink2_4(),
-                new BlockRed1_1(), new BlockRed2_2(),
-                new BlockPurple_5(),
-                new BlockGreen1_6(),
-                new BlockGreen2_7(),
-                new BlockBlue1_8(), new BlockBlue2_9(),
-                new BlockYellow_10(),
-                new BlockGrey_11(),
-                new BlockPink1_3(),
-                new BlockWhite_12()
-            };
+            Block.Block[] blocks = BlockGroup.CreateAll(true);
 
             IGround g = new TriangleGround();
             g.Init();
@@ -215,9 +208,9 @@ namespace Pyramid
                 int bi = blocks.GetBlockIndexByValue(value);
                 if (bi >= 0)
                 {
-                    IBlock block = blocks[bi];
+                    Block.Block block = blocks[bi];
 
-                    Point[] pts = block.ShapeFlat(6, new Point(0, 6));
+                    Point[] pts = block.MoveShapeFlat(6, new Point(0, 6));
                     g.Fill(pts, value);
 
                     blocks = blocks.CreateBlocksExcludeIndex(bi);
@@ -227,9 +220,9 @@ namespace Pyramid
                 bi = blocks.GetBlockIndexByValue(value);
                 if (bi >= 0)
                 {
-                    IBlock block = blocks[bi];
+                    Block.Block block = blocks[bi];
 
-                    Point[] pts = block.ShapeFlat(1, new Point(2, 8));
+                    Point[] pts = block.MoveShapeFlat(1, new Point(2, 8));
                     g.Fill(pts, value);
 
                     blocks = blocks.CreateBlocksExcludeIndex(bi);

@@ -24,9 +24,26 @@ namespace Pyramid
             this.z = z;
         }
 
+        public Point(Point p)
+        {
+            Set(p);
+        }
+
+        public void Set(Point p)
+        {
+            this.x = p.x;
+            this.y = p.y;
+            this.z = p.z;
+        }
+
         public static Point operator +(Point a, Point b)
         {
             return new Point(a.x + b.x, a.y + b.y, a.z + b.z);
+        }
+
+        public static Point operator -(Point a, Point b)
+        {
+            return new Point(a.x - b.x, a.y - b.y, a.z - b.z);
         }
     }
 }

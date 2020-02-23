@@ -4,15 +4,11 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockYellow_10 : IBlock
+    public class BlockYellow_10 : Block
     {
-        public int Value { get => 10; }
-
-        public int UnitNum { get => 4; }
-
-        public Point[,] FlatShapes
+        public BlockYellow_10() : base(10, 4)
         {
-            get => new Point[1, 4] {
+            FlatShapes = new Point[1, 4] {
                 {
                     /* 0
                      *     10 10
@@ -24,38 +20,27 @@ namespace Pyramid.Block
                     new Point(1, 1)
                 }
             };
-        }
 
-        public Point[,] Shape3Ds
-        {
-            get => new Point[2, 4] {
+            Shape3D = new Point[][] {
                 /*
                  * 与底面垂直站立放置
                  * 边与底面成 45 度角
                  */
+                new Point[]
                 {
-                    /* 0
-                     *    (1, 1, 0)
-                     *    (0, 0, 1)
-                     *    (1, 1, 1)
-                     *    (0, 0, 2)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(-1, -1, 1),
+                    // 0
+                    new Point(1, 1, 0),
                     new Point(0, 0, 1),
-                    new Point(-1, -1, 2)
+                    new Point(1, 1, 1),
+                    new Point(0, 0, 2),
                 },
+                new Point[]
                 {
-                    /* 1
-                     *     (3, 1, 0)
-                     *     (3, 0, 1)
-                     *     (2, 1, 1)
-                     *     (2, 0, 2)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(0, -1, 1),
-                    new Point(-1, 0, 1),
-                    new Point(-1, -1, 2)
+                    // 1
+                    new Point(3, 1, 0),
+                    new Point(3, 0, 1),
+                    new Point(2, 1, 1),
+                    new Point(2, 0, 2),
                 },
             };
         }

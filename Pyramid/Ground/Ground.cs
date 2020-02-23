@@ -17,7 +17,7 @@ namespace Pyramid.Ground
 
         void Fill(Point[] points, int v);
 
-        bool FillBlock(IBlock[] blocks, Point point);
+        bool FillBlock(Block.Block[] blocks, Point point);
 
         void Print();
     }

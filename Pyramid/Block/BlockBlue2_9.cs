@@ -4,15 +4,11 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockBlue2_9 : IBlock
+    public class BlockBlue2_9 : Block
     {
-        public int Value { get => 9; }
-
-        public int UnitNum { get => 5; }
-
-        public Point[,] FlatShapes
+        public BlockBlue2_9() : base(9, 5)
         {
-            get => new Point[8, 5] {
+            FlatShapes = new Point[8, 5] {
                 {
                     /* 0
                      *    9 9
@@ -106,43 +102,30 @@ namespace Pyramid.Block
                     new Point(1, 2)
                 }
             };
-        }
 
-        public Point[,] Shape3Ds
-        {
-            get => new Point[2, 5] {
+            Shape3D = new Point[][] {
                 /*
                  * 与底面垂直站立放置
                  * 长边与底面成 45 度角
                  * 有 8*2=16 种 , TBD
                  */
+                new Point[]
                 {
-                    /* 0
-                     *    (1, 1, 0)
-                     *    (0, 0, 1)
-                     *    (1, 1, 1)
-                     *    (0, 0, 2)
-                     *    (0, 0, 3)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(-1, -1, 1),
+                    // 0
+                    new Point(1, 1, 0),
                     new Point(0, 0, 1),
-                    new Point(-1, -1, 2),
-                    new Point(-1, -1, 3)
+                    new Point(1, 1, 1),
+                    new Point(0, 0, 2),
+                    new Point(0, 0, 3),
                 },
+                new Point[]
                 {
-                    /* 1
-                     *     (3, 1, 0)
-                     *     (3, 0, 1)
-                     *     (2, 1, 1)
-                     *     (2, 0, 2)
-                     *     (1, 0, 3)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(0, -1, 1),
-                    new Point(-1, 0, 1),
-                    new Point(-1, -1, 2),
-                    new Point(-2, -1, 3)
+                    // 1
+                    new Point(3, 1, 0),
+                    new Point(3, 0, 1),
+                    new Point(2, 1, 1),
+                    new Point(2, 0, 2),
+                    new Point(1, 0, 3),
                 },
             };
         }

@@ -16,15 +16,19 @@ namespace Pyramid.Ground
     {
         private int layerNum = 0;
 
+        private bool bZAsc = false;
+
         private int[,,] a = null;
 
-        public PyramidGround(int layerNum)
+        public PyramidGround(int layerNum, bool bZAsc)
         {
             this.layerNum = layerNum;
             if (0 < layerNum && layerNum < 6)
             {
                 a = new int[layerNum, layerNum, layerNum];
             }
+
+            this.bZAsc = bZAsc;
         }
 
         public void Init()
@@ -142,21 +146,40 @@ namespace Pyramid.Ground
                 }
             }
 
-            // Print();
-
-            for (int z = point.z + 1; z < layerNum; ++z)
+            if (bZAsc)
             {
-                for (int y = 0; y < layerNum - point.z; ++y)
+                for (int z = point.z + 1; z < layerNum; ++z)
                 {
-                    for (int x = 0; x < layerNum - point.z; ++x)
+                    for (int y = 0; y < layerNum - z; ++y)
                     {
-                        if (a[x, y, z] == 0)
+                        for (int x = 0; x < layerNum - z; ++x)
                         {
-                            return new Point(x, y, z);
+                            if (a[x, y, z] == 0)
+                            {
+                                return new Point(x, y, z);
+                            }
                         }
                     }
                 }
             }
+            else
+            {
+                for (int z = point.z - 1; z >= 0; --z)
+                {
+                    for (int y = 0; y < layerNum - z; ++y)
+                    {
+                        for (int x = 0; x < layerNum - z; ++x)
+                        {
+                            if (a[x, y, z] == 0)
+                            {
+                                return new Point(x, y, z);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Print();
 
             return null;
         }
@@ -171,7 +194,7 @@ namespace Pyramid.Ground
         /// <param name="blocks">可用积木的集合</param>
         /// <param name="point">当前要填充覆盖的点</param>
         /// <returns>是否能正确填完</returns>
-        public bool FillBlock(IBlock[] blocks, Point point)
+        public bool FillBlock(Block.Block[] blocks, Point point)
         {
             bool bSuccess = SuccessFlag();
             if (bSuccess)
@@ -188,15 +211,15 @@ namespace Pyramid.Ground
 
             for (int b = 0; b < blocks.Length; ++b)
             {
-                IBlock block = blocks[b];
+                Block.Block block = blocks[b];
                 int iShapeAllCount = block.AllShapeCount();
 
                 for (int t = 0; t < iShapeAllCount; ++t)
                 {
-                    Point[] points = block.Shape(t, point);
+                    Point[] points = block.MoveShape(t, point);
                     if (CanFill(points))
                     {
-                        Fill(points, block.Value);
+                        Fill(points, block.value);
 
                         bSuccess = SuccessFlag();
 
@@ -206,7 +229,7 @@ namespace Pyramid.Ground
                         }
                         else
                         {
-                            IBlock[] newblocks = blocks.CreateBlocksExcludeIndex(b);
+                            Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
 
                             if (FillBlock(newblocks, point))
                             {

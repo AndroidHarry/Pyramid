@@ -4,15 +4,11 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockBlue1_8 : IBlock
+    public class BlockBlue1_8 : Block
     {
-        public int Value { get => 8; }
-
-        public int UnitNum { get => 5; }
-
-        public Point[,] FlatShapes
+        public BlockBlue1_8() : base(8, 5)
         {
-            get => new Point[4, 5] {
+            FlatShapes = new Point[4, 5] {
                 {
                     /* 0
                      *     8
@@ -62,70 +58,47 @@ namespace Pyramid.Block
                     new Point(2, 2)
                 }
             };
-        }
 
-        public Point[,] Shape3Ds
-        {
-            get => new Point[4, 5] {
+            Shape3D = new Point[][] {
                 /*
                  * 与底面垂直站立放置
                  * 长边与底面成 45 度角
                  */
+                new Point[]
                 {
-                    /* 0
-                     *    (0, 0, 0)
-                     *    (2, 2, 0)
-                     *    (0, 0, 1)
-                     *    (1, 1, 1)
-                     *    (0, 0, 2)
-                     */
+                    // 0
                     new Point(0, 0, 0),
                     new Point(2, 2, 0),
                     new Point(0, 0, 1),
                     new Point(1, 1, 1),
                     new Point(0, 0, 2)
                 },
+                new Point[]
                 {
-                    /* 1
-                     *    (2, 0, 0)
-                     *    (0, 2, 0)
-                     *    (1, 0, 1)
-                     *    (0, 1, 1)
-                     *    (0, 0, 2)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(-2, 2, 0),
-                    new Point(-1, 0, 1),
-                    new Point(-2, 1, 1),
-                    new Point(-2, 0, 2)
+                    // 1
+                    new Point(2, 0, 0),
+                    new Point(0, 2, 0),
+                    new Point(1, 0, 1),
+                    new Point(0, 1, 1),
+                    new Point(0, 0, 2),
                 },
+                new Point[]
                 {
-                    /* 2 V
-                     *    (2, 2, 0)
-                     *    (1, 1, 1)
-                     *    (2, 2, 1)
-                     *    (0, 0, 2)
-                     *    (2, 2, 2)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(-1, -1, 1),
-                    new Point(0, 0, 1),
-                    new Point(-2, -2, 2),
-                    new Point(0, 0, 2)
+                    // 2 V
+                    new Point(2, 2, 0),
+                    new Point(1, 1, 1),
+                    new Point(2, 2, 1),
+                    new Point(0, 0, 2),
+                    new Point(2, 2, 2),
                 },
+                new Point[]
                 {
-                    /* 3 V
-                     *    (2, 2, 0)
-                     *    (2, 1, 1)
-                     *    (1, 2, 1)
-                     *    (2, 0, 2)
-                     *    (0, 2, 2)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(0, -1, 1),
-                    new Point(-1, 0, 1),
-                    new Point(0, -2, 2),
-                    new Point(-2, 0, 2)
+                    // 3 V
+                    new Point(2, 2, 0),
+                    new Point(2, 1, 1),
+                    new Point(1, 2, 1),
+                    new Point(2, 0, 2),
+                    new Point(0, 2, 2),
                 },
             };
         }

@@ -4,14 +4,11 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockWhite_12 : IBlock
+    public class BlockWhite_12 : Block
     {
-        public int Value { get => 12; }
-
-        public int UnitNum { get => 5; }
-        public Point[,] FlatShapes
+        public BlockWhite_12() : base(12, 5)
         {
-            get => new Point[4, 5] {
+            FlatShapes = new Point[4, 5] {
                 {
                     /* 0
                      *     12 12 12
@@ -59,12 +56,8 @@ namespace Pyramid.Block
                     new Point(0, 2)
                 }
             };
-        }
 
-        public Point[,] Shape3Ds
-        {
-            //  TBD
-            get => null;
+            Shape3D = null;    //  TBD
         }
     }
 }

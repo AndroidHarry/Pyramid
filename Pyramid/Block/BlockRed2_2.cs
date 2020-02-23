@@ -4,15 +4,11 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockRed2_2 : IBlock
+    public class BlockRed2_2 : Block
     {
-        public int Value { get => 2; }
-
-        public int UnitNum { get => 5; }
-
-        public Point[,] FlatShapes
+        public BlockRed2_2() : base(2, 5)
         {
-            get => new Point[4, 5] {
+            FlatShapes = new Point[4, 5] {
                 {
                     /* 0
                      *    2
@@ -62,40 +58,28 @@ namespace Pyramid.Block
                     new Point(-1, 2)
                 }
             };
-        }
 
-        public Point[,] Shape3Ds {
-            get => new Point[2, 5] {
+            Shape3D = new Point[][] {
                 /*
                  * 与底面垂直站立放置
                  */
+                new Point[]
                 {
-                    /* 0
-                     *    (2, 0, 0)
-                     *    (1, 1, 0)
-                     *    (0, 2, 0)
-                     *    (1, 0, 1)
-                     *    (0, 1, 1)
-                     */
-                    new Point(0, 0, 0),
-                    new Point(-1, 1, 0),
-                    new Point(-2, 2, 0),
-                    new Point(-1, 0, 1),
-                    new Point(-2, 1, 1)
-                },
-                {
-                    /* 1
-                     *    (2, 0, 0)
-                     *    (3, 1, 0)
-                     *    (4, 2, 0)
-                     *    (2, 0, 1)
-                     *    (3, 1, 1)
-                     */
-                    new Point(0, 0, 0),
+                    // 0
+                    new Point(2, 0, 0),
                     new Point(1, 1, 0),
-                    new Point(2, 2, 0),
-                    new Point(0, 0, 1),
-                    new Point(1, 1, 1)
+                    new Point(0, 2, 0),
+                    new Point(1, 0, 1),
+                    new Point(0, 1, 1),
+                },
+                new Point[]
+                {
+                    // 1
+                    new Point(2, 0, 0),
+                    new Point(3, 1, 0),
+                    new Point(4, 2, 0),
+                    new Point(2, 0, 1),
+                    new Point(3, 1, 1),
                 }
             };
         }
