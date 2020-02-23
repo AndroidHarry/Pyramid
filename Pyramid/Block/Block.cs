@@ -25,7 +25,7 @@ namespace Pyramid.Block
         //  可以摆放成哪些立体形状
         protected Point[][] Shape3D;
 
-        protected Point[] MoveShape3D(int s, Point point)
+        public Point[] MoveShape3D(int s, Point point)
         {
             if (Shape3D == null)
                 return null;
@@ -56,7 +56,6 @@ namespace Pyramid.Block
             return MoveShape3D(s - ShapeFlatCount(), point);
         }
 
-
         public int AllShapeCount()
         {
             int flatCount = ShapeFlatCount();
@@ -68,7 +67,6 @@ namespace Pyramid.Block
 
             return flatCount;
         }
-
 
         public void Init(bool bZAsc)
         {
@@ -86,32 +84,24 @@ namespace Pyramid.Block
             }
         }
 
-        private Region[] FlatRegion {
-            get {
-                CheckCreateFlatRegion();
-                return _flatRegions;
-            }
-        }
-
         public int ShapeFlatCount()
         {
-            if (FlatRegion != null)
+            if (FlatShapes != null && unitNum > 0)
             {
-                return FlatRegion.Length;
+                return FlatShapes.Length / unitNum;
             }
             return 0;
         }
 
         public Point[] MoveShapeFlat(int s, Point point)
         {
-            if (FlatRegion != null && 0 <= s && s < FlatRegion.Length)
+            if (FlatShapes != null && 0 <= s && s < ShapeFlatCount())
             {
                 Point[] points = new Point[unitNum];
-                Region rSrc = FlatRegion[s];
 
-                for (int i = 0; i < rSrc.points.Length; ++i)
+                for (int i = 0; i < unitNum; ++i)
                 {
-                    points[i] = rSrc.points[i] + point;
+                    points[i] = FlatShapes[s, i] + point;
                 }
 
                 return points;
@@ -119,30 +109,5 @@ namespace Pyramid.Block
 
             return null;
         }
-
-        private void CheckCreateFlatRegion()
-        {
-            if (_flatRegions == null)
-            {
-                if (FlatShapes != null && unitNum > 0)
-                {
-                    int cnt = FlatShapes.Length / unitNum;
-
-                    _flatRegions = new Region[cnt];
-
-                    for (int i = 0; i < cnt; ++i)
-                    {
-                        Point[] pts = new Point[unitNum];
-                        for (int j = 0; j < unitNum; ++j)
-                        {
-                            pts[j] = new Point(FlatShapes[i, j]);
-                        }
-                        _flatRegions[i] = new Region(pts);
-                    }
-                }
-            }
-        }
-
-        private Region[] _flatRegions;
     }
 }
