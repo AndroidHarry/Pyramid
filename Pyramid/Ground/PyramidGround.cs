@@ -31,7 +31,7 @@ namespace Pyramid.Ground
             this.bZAsc = bZAsc;
         }
 
-        public void Init()
+        public override void Init()
         {
             for (int z = 0; z < layerNum; ++z)
             {
@@ -45,7 +45,7 @@ namespace Pyramid.Ground
             }
         }
 
-        public bool CanFill(Point point)
+        public override bool CanFill(Point point)
         {
             //  有效的格子
             if (0 <= point.x && point.x < layerNum && point.x < layerNum - point.z &&
@@ -59,18 +59,7 @@ namespace Pyramid.Ground
             return false;
         }
 
-        public bool CanFill(Point[] points)
-        {
-            foreach (Point point in points)
-            {
-                if (!CanFill(point))
-                    return false;
-            }
-
-            return true;
-        }
-
-        public void Fill(Point[] points, int v)
+        public override void Fill(Point[] points, int v)
         {
             foreach (Point point in points)
             {
@@ -80,9 +69,9 @@ namespace Pyramid.Ground
             // Print();
         }
 
-        public void Print()
+        public override void Print()
         {
-            Console.WriteLine($"Layer{layerNum} Pyramid:");
+            Console.WriteLine($"Layer{layerNum} Pyramid: {successCount}th success, {DateTime.Now.ToString("HH:mm:ss.fff")}");
             Console.WriteLine();
 
             for (int z = layerNum - 1; z >= 0; --z)
@@ -101,7 +90,7 @@ namespace Pyramid.Ground
             }
         }
 
-        public bool SuccessFlag()
+        public override bool SuccessFlag()
         {
             for (int z = 0; z < layerNum; ++z)
             {
@@ -194,7 +183,7 @@ namespace Pyramid.Ground
         /// <param name="blocks">可用积木的集合</param>
         /// <param name="point">当前要填充覆盖的点</param>
         /// <returns>是否能正确填完</returns>
-        public bool FillBlock(Block.Block[] blocks, Point point)
+        public override bool FillBlock(Block.Block[] blocks, Point point)
         {
             bool bSuccess = SuccessFlag();
             if (bSuccess)
@@ -225,37 +214,39 @@ namespace Pyramid.Ground
 
                         if (bSuccess)
                         {
-                            break;
+                            ++successCount;
+                            Print();
+
+                            if (CanContinue())
+                            {
+                                //  erase
+                                Fill(points, 0);
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                         else
                         {
                             Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
 
-                            if (FillBlock(newblocks, point))
+                            FillBlock(newblocks, point);
+                            
+                            if (!bContinue)
                             {
-                                bSuccess = SuccessFlag();
-
-                                if (bSuccess)
-                                {
-                                    break;
-                                }
+                                break;
                             }
-                            else
-                            {
-                                //  erase
-                                Fill(points, 0);
-                            }
+                            
+                            //  erase
+                            Fill(points, 0);
                         }
                     }
                 }
 
-                if (bSuccess)
+                if (!bContinue)
                 {
                     break;
-                }
-                else
-                {
-
                 }
             }
 

@@ -5,20 +5,55 @@ using System.Text;
 
 namespace Pyramid.Ground
 {
-    public interface IGround
+    public abstract class IGround
     {
-        void Init();
+        public abstract void Init();
 
-        bool SuccessFlag();
+        public abstract bool SuccessFlag();
 
-        bool CanFill(Point point);
+        public abstract bool CanFill(Point point);
 
-        bool CanFill(Point[] points);
+        public bool CanFill(Point[] points)
+        {
+            foreach (Point point in points)
+            {
+                if (!CanFill(point))
+                    return false;
+            }
 
-        void Fill(Point[] points, int v);
+            return true;
+        }
 
-        bool FillBlock(Block.Block[] blocks, Point point);
+        public abstract void Fill(Point[] points, int v);
 
-        void Print();
+        public abstract bool FillBlock(Block.Block[] blocks, Point point);
+
+        public abstract void Print();
+
+        public bool CanContinue()
+        {
+            if (!bContinue)
+                return false;
+
+            Console.WriteLine("Press Enter to Continue, other key to Exit ");
+
+            string key = Console.ReadKey().Key.ToString();
+            if (key == "Enter")
+            {
+                bContinue = true;
+            }
+            else
+            {
+                bContinue = false;
+            }
+
+            Console.WriteLine();
+
+            return bContinue;
+        }
+
+        protected bool bContinue = true;
+
+        protected int successCount = 0;
     }
 }
