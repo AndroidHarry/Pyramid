@@ -145,7 +145,7 @@ namespace Pyramid.Ground
 
                 for (int t = 0; t < iShapeCount; ++t)
                 {
-                    Point[] points = block.MoveShapeFlat(t, point);
+                    Point[] points = block.MoveShape(t, point);
                     if (CanFill(points))
                     {
                         Fill(points, block.value);
