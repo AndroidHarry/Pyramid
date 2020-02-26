@@ -29,6 +29,8 @@ namespace Pyramid.Ground
             }
 
             this.bZAsc = bZAsc;
+
+            startPoint = bZAsc ? new Point(0, 0, 0) : new Point(0, 0, layerNum - 1);
         }
 
         public override void Init()
@@ -71,7 +73,7 @@ namespace Pyramid.Ground
 
         public override void Print()
         {
-            Console.WriteLine($"Layer{layerNum} Pyramid: {successCount}th success, {DateTime.Now.ToString("HH:mm:ss.fff")}");
+            Console.WriteLine($"Layer{layerNum} Pyramid: {successCount}th success, {timer.Spend()}");
             Console.WriteLine();
 
             for (int z = layerNum - 1; z >= 0; --z)
@@ -183,7 +185,7 @@ namespace Pyramid.Ground
         /// <param name="blocks">可用积木的集合</param>
         /// <param name="point">当前要填充覆盖的点</param>
         /// <returns>是否能正确填完</returns>
-        public override bool FillBlock(Block.Block[] blocks, Point point)
+        protected override bool FillBlock(Block.Block[] blocks, Point point)
         {
             bool bSuccess = SuccessFlag();
             if (bSuccess)
@@ -201,45 +203,62 @@ namespace Pyramid.Ground
             for (int b = 0; b < blocks.Length; ++b)
             {
                 Block.Block block = blocks[b];
-                int iShapeAllCount = block.AllShapeCount();
 
-                for (int t = 0; t < iShapeAllCount; ++t)
+                //int iShapeAllCount = block.AllShapeCount();
+
+                int iLessLayer = 1;
+                if (this.bZAsc)
                 {
-                    Point[] points = block.MoveShape(t, point);
-                    if (CanFill(points))
+                    iLessLayer = this.layerNum - point.z;
+                }
+                else
+                {
+                    iLessLayer = point.z + 1;
+                }
+                Region[] r = block.GetRegion(iLessLayer);
+                if (r != null)
+                {
+                    for (int t = 0; t < r.Length; ++t)
                     {
-                        Fill(points, block.value);
+                        Point[] points = r[t] + point;
 
-                        bSuccess = SuccessFlag();
-
-                        if (bSuccess)
+                        if (CanFill(points))
                         {
-                            ++successCount;
-                            Print();
+                            Fill(points, block.value);
 
-                            if (CanContinue())
+                            bSuccess = SuccessFlag();
+
+                            if (bSuccess)
                             {
-                                //  erase
-                                Fill(points, 0);
+                                timer.End();
+                                ++successCount;
+                                Print();
+
+                                if (CanContinue())
+                                {
+                                    timer.Start();
+                                    //  erase
+                                    Fill(points, 0);
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                             else
                             {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
+                                Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
 
-                            FillBlock(newblocks, point);
-                            
-                            if (!bContinue)
-                            {
-                                break;
+                                FillBlock(newblocks, point);
+
+                                if (!bContinue)
+                                {
+                                    break;
+                                }
+
+                                //  erase
+                                Fill(points, 0);
                             }
-                            
-                            //  erase
-                            Fill(points, 0);
                         }
                     }
                 }

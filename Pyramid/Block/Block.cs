@@ -30,22 +30,143 @@ namespace Pyramid.Block
 
             int[][,] masks = CreateMasks(mask);
 
-            Region = CreateRegion(masks);
+            Region[] tmpRegion = CreateRegion(masks);
+
+            LayerRegion = CreateLayerRegion(tmpRegion);
         }
         
         protected readonly int[,] mask;
 
-        private Point[][] CreateRegion(int[][,] masks)
+        //  分层的 region
+        //  region 所在点 占且只占 一层的，位于 [0][][]
+        //  region 所在点 占且只占 二层的，位于 [1][][]
+        //  region 所在点 占且只占 三层的，位于 [2][][]
+        //  ...
+        private readonly Region[][] LayerRegion;
+
+        public Region[] GetRegion(int iLessLayer)
+        {
+            int count = GetRegionCount(iLessLayer);
+            if (count > 0)
+            {
+                Region[] r = new Region[count];
+                int t = 0;
+
+                for (int i = 0; i < iLessLayer && i < LayerRegion.Length; ++i)
+                {
+                    if (LayerRegion[i] != null)
+                    {
+                        for (int j = 0; j < LayerRegion[i].Length; ++j)
+                        {
+                            r[t++] = LayerRegion[i][j];
+                        }
+                    }
+                }
+
+                return r;
+            }
+
+            return null;
+        }
+
+        private int GetRegionCount(int iLessLayer)
+        {
+            if (LayerRegion == null || iLessLayer < 1)
+            {
+                return 0;
+            }
+
+            int count = 0;
+            for (int i = 0; i < iLessLayer && i < LayerRegion.Length; ++i)
+            {
+                if (LayerRegion[i] != null)
+                {
+                    count += LayerRegion[i].Length;
+                }
+            }
+            return count;
+        }
+
+        private Region[][] CreateLayerRegion(Region[] allRegion)
+        {
+            int maxLayer = RegionMaxLayer(allRegion);
+
+            Region[][] r = new Region[maxLayer + 1][];
+
+            for (int i = 0; i <= maxLayer; ++i)
+            {
+                r[i] = CreateLayerRegion(allRegion, i);
+            }
+
+            return r;
+        }
+
+        private int RegionMaxLayer(Region[] allRegion)
+        {
+            if (allRegion == null || allRegion.Length == 0)
+            {
+                return 0;
+            }
+
+            int m = 0;
+            foreach (Region r in allRegion)
+            {
+                if (r.LayerCount > m)
+                {
+                    m = r.LayerCount;
+                }
+            }
+
+            return m;
+        }
+
+        private Region[] CreateLayerRegion(Region[] allRegion, int layer)
+        {
+            if (allRegion == null)
+            {
+                return null;
+            }
+
+            int count = 0;
+
+            for (int i = 0; i < allRegion.Length; ++i)
+            {
+                if (allRegion[i].LayerCount == layer)
+                {
+                    ++count;
+                }
+            }
+
+            if (count > 0)
+            {
+                Region[] r = new Region[count];
+                int j = 0;
+
+                for (int i = 0; i < allRegion.Length; ++i)
+                {
+                    if (allRegion[i].LayerCount == layer)
+                    {
+                        r[j++] = allRegion[i];
+                    }
+                }
+
+                return r;
+            }
+
+            return null;
+        }
+
+        private Region[] CreateRegion(int[][,] masks)
         {
             int a = masks.Length;
 
-            Point[][] pts = new Point[a * 3][];
+            Region[] rg = new Region[a * 3];
 
             for (int k = 0; k < a; ++k)
             {
-                pts[k] = new Point[unitNum];
-                pts[k + a] = new Point[unitNum];
-                pts[k + a + a] = new Point[unitNum];
+                Point[] pts_0 = new Point[unitNum];
+                Point[] pts_1 = new Point[unitNum];
+                Point[] pts_2 = new Point[unitNum];
 
                 int t = 0;
                 for (int i = 0; i < masks[k].GetLength(0); ++i)
@@ -54,44 +175,36 @@ namespace Pyramid.Block
                     {
                         if (masks[k][i, j] == 1)
                         {
-                            pts[k][t] = new Point(i, j);
-                            pts[k + a][t] = new Point(j, j, -i - j);
-                            pts[k + a + a][t] = new Point(j, i, -i - j);
+                            /*
+                             *   A         B
+                             *    * * * * *
+                             *    * * * * *
+                             *    * * * * *
+                             *    * * * * *
+                             *   C         D
+                             */
+                            //  平面摆放，直接根据 x, y 来赋值
+                            pts_0[t] = new Point(i, j);
+                            //  立体摆放，积木所在平面与正方形ABCD所在底面垂直，
+                            //  且对角线AD平行于积木所在平面
+                            pts_1[t] = new Point(j, j, -i - j);
+                            //  立体摆放，积木所在平面与正方形ABCD所在底面垂直，
+                            //  且对角线BC平行于积木所在平面
+                            pts_2[t] = new Point(j, i, -i - j);
 
                             ++t;
                         }
                     }
                 }
+
+                rg[k] = new Region(pts_0);
+                rg[k + a] = new Region(pts_1);
+                rg[k + a + a] = new Region(pts_2);
             }
 
-            return pts;
+            return rg;
         }
 
-        private Point[][] CreateRegionFlat(int[][,] masks)
-        {
-            int a = masks.Length;
-
-            Point[][] pts = new Point[a][];
-
-            for (int k = 0; k < a; ++k)
-            {
-                pts[k] = new Point[unitNum];
-
-                int t = 0;
-                for (int i = 0; i < masks[k].GetLength(0); ++i)
-                {
-                    for (int j = 0; j < masks[k].GetLength(1); ++j)
-                    {
-                        if (masks[k][i, j] == 1)
-                        {
-                            pts[k][t++] = new Point(i, j);
-                        }
-                    }
-                }
-            }
-
-            return pts;
-        }
 
         private int[][,] CheckCreateMirrorXYMasks(int[,] mask)
         {
@@ -272,64 +385,28 @@ namespace Pyramid.Block
             }
         }
 
-        public Block(int v, int u)
-        {
-            value = v;
-            unitNum = u;
-        }
-
-        //  大小为3的倍数。
-        //  前1/3是水平面的摆放；后2/3是立体的摆放。
-        protected readonly Point[][] Region;
-
-
         //  代表的数值
         public readonly int value;
 
         //  由几个单元（点）组成
         public readonly int unitNum;
 
-
-        public Point[] MoveShape(int s, Point point)
-        {
-            if (Region != null && 0 <= s && s < Region.Length)
-            {
-                Point[] points = new Point[unitNum];
-
-                for (int i = 0; i < unitNum; ++i)
-                {
-                    points[i] = Region[s][i] + point;
-                }
-
-                return points;
-            }
-
-            return null;
-        }
-
-        public int AllShapeCount()
-        {
-            return (Region == null) ? 0 : Region.Length;
-        }
-
         public void Init(bool bZAsc)
         {
-            if (Region != null)
+            if (LayerRegion != null)
             {
-                int cnt = Region.Length;
-
-                for (int i = 0; i < cnt; ++i)
+                for (int i = 0; i < LayerRegion.Length; ++i)
                 {
-                    Region r = new Region(Region[i]);
-                    r.Normalize(bZAsc);
-                    // r.Print($"{i+1}");
+                    if (LayerRegion[i] != null)
+                    {
+                        for (int j = 0; j < LayerRegion[i].Length; ++j)
+                        {
+                            LayerRegion[i][j].Normalize(bZAsc);
+                            // LayerRegion[i][j].Print($"Layer{i},Index{j}"); 
+                        }
+                    }
                 }
             }
-        }
-
-        public int ShapeFlatCount()
-        {
-            return Region == null ? 0 : Region.Length / 3;
         }
     }
 }

@@ -197,7 +197,7 @@ namespace Pyramid
             Console.WriteLine($"start:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
 
 
-            g.FillBlock(blocks, bZAsc ? new Point(0, 0, 0) : new Point(0, 0, layerNum - 1));
+            g.Start(blocks);
 
             g.Print();
 
@@ -249,7 +249,7 @@ namespace Pyramid
 
             Console.WriteLine($"start:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
 
-            g.FillBlock(blocks, new Point(0, 0));
+            g.Start(blocks);
 
             g.Print();
 

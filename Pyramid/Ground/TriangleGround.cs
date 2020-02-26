@@ -56,7 +56,7 @@ namespace Pyramid.Ground
 
         public override void Print()
         {
-            Console.WriteLine($"Triangle: {successCount}th success, {DateTime.Now.ToString("HH:mm:ss.fff")}");
+            Console.WriteLine($"Triangle: {successCount}th success, {timer.Spend()}");
             Console.WriteLine();
 
             for (int y = 0; y < 10; ++y)
@@ -123,7 +123,7 @@ namespace Pyramid.Ground
         /// <param name="blocks">可用积木的集合</param>
         /// <param name="point">当前要填充覆盖的点</param>
         /// <returns>是否能正确填完</returns>
-        public override bool FillBlock(Block.Block[] blocks, Point point)
+        protected override bool FillBlock(Block.Block[] blocks, Point point)
         {
             bool bSuccess = SuccessFlag();
             if (bSuccess)
@@ -141,45 +141,53 @@ namespace Pyramid.Ground
             for (int b = 0; b < blocks.Length; ++b)
             {
                 Block.Block block = blocks[b];
-                int iShapeCount = block.ShapeFlatCount();
+                //int iShapeCount = block.ShapeFlatCount();
+                Region[] r = block.GetRegion(1);
 
-                for (int t = 0; t < iShapeCount; ++t)
+                if (r != null)
                 {
-                    Point[] points = block.MoveShape(t, point);
-                    if (CanFill(points))
+                    for (int t = 0; t < r.Length; ++t)
                     {
-                        Fill(points, block.value);
+                        //Point[] points = block.MoveShape(t, point);
+                        Point[] points = r[t] + point;
 
-                        bSuccess = SuccessFlag();
-
-                        if (bSuccess)
+                        if (CanFill(points))
                         {
-                            ++successCount;
-                            Print();
+                            Fill(points, block.value);
 
-                            if (CanContinue())
+                            bSuccess = SuccessFlag();
+
+                            if (bSuccess)
                             {
-                                //  erase
-                                Fill(points, 0);
+                                timer.End();
+                                ++successCount;
+                                Print();
+
+                                if (CanContinue())
+                                {
+                                    timer.Start();
+                                    //  erase
+                                    Fill(points, 0);
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                             else
                             {
-                                break;
+                                Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
+
+                                FillBlock(newblocks, point);
+
+                                if (!bContinue)
+                                {
+                                    break;
+                                }
+
+                                //  erase
+                                Fill(points, 0);
                             }
-                        }
-                        else
-                        {
-                            Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
-
-                            FillBlock(newblocks, point);
-
-                            if (!bContinue)
-                            {
-                                break;
-                            }
-
-                            //  erase
-                            Fill(points, 0);
                         }
                     }
                 }

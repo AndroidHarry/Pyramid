@@ -8,9 +8,56 @@ namespace Pyramid
     {
         public readonly Point[] points = null;
 
+        //  占几层
+        public readonly int LayerCount = 0;
+
         public Region(Point[] points)
         {
             this.points = points;
+            this.LayerCount = CountLayer();
+        }
+
+        public static Point[] operator +(Region r, Point pt)
+        {
+            if (r == null || r.points == null || r.points.Length < 1 ||
+                pt == null)
+            {
+                return null;
+            }
+
+            Point[] pts = new Point[r.points.Length];
+
+            for (int i = 0; i < r.points.Length; ++i)
+            {
+                pts[i] = r.points[i] + pt;
+            }
+
+            return pts;
+        }
+
+        private int CountLayer()
+        {
+            if (points == null || points.Length < 1)
+            {
+                return 0;
+            }
+
+            int iMinLayer = points[0].z;
+            int iMaxLayer = points[0].z;
+
+            for (int i = 0; i < points.Length; ++i)
+            {
+                if (points[i].z < iMinLayer)
+                {
+                    iMinLayer = points[i].z;
+                }
+                else if (points[i].z > iMaxLayer)
+                {
+                    iMaxLayer = points[i].z;
+                }
+            }
+
+            return iMaxLayer - iMinLayer;
         }
 
         public void Print(string title)
