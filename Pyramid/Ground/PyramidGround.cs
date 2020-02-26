@@ -215,7 +215,7 @@ namespace Pyramid.Ground
                 {
                     iLessLayer = point.z + 1;
                 }
-                Region[] r = block.GetRegion(iLessLayer);
+                Region[] r = block.CreateRegion(iLessLayer);
                 if (r != null)
                 {
                     for (int t = 0; t < r.Length; ++t)

@@ -142,7 +142,7 @@ namespace Pyramid.Ground
             {
                 Block.Block block = blocks[b];
                 //int iShapeCount = block.ShapeFlatCount();
-                Region[] r = block.GetRegion(1);
+                Region[] r = block.CreateRegion(1);
 
                 if (r != null)
                 {

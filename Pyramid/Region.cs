@@ -11,6 +11,7 @@ namespace Pyramid
         //  占几层
         public readonly int LayerCount = 0;
 
+
         public Region(Point[] points)
         {
             this.points = points;
@@ -146,35 +147,6 @@ namespace Pyramid
             {
                 points[i] = points[i] - basePoint;
             }
-        }
-
-        
-        //public static int GetSize(int[,] mask)
-        //{
-        //    if (mask == null)
-        //        return 0;
-
-        //    for (int y=0;y<)
-        //}
-
-        public static Region CreateRegion(int[,] mask)
-        {
-            return null;
-        }
-
-        public static void Test()
-        {
-            
-        }
-
-        private static void TestCreateRegion()
-        {
-            int[,] ts = new int[3, 3]
-            {
-                { 0, 1, 0 },
-                { 1,1,1},
-                { 0,1,0}
-            };
         }
 
         private static void TestNormalize()

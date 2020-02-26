@@ -21,9 +21,6 @@ namespace Pyramid
 
         static void Test()
         {
-            
-
-            Region.Test();
         }
 
         static void DoPyramidGround()
