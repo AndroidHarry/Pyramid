@@ -59,11 +59,39 @@ namespace Pyramid.Ground
             Console.WriteLine($"Triangle: {successCount}th success, {timer.Spend()}");
             Console.WriteLine();
 
+            Print1();
+            Print2();
+        }
+
+        private void Print1()
+        {
+            //  以等腰直角三角形的一条直角边为底
+
             for (int y = 0; y < 10; ++y)
             {
                 for (int x = 0; x <= y; ++x)
                 {
                     Console.Write(string.Format("{0,3}", a[x, y]));
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+
+        private void Print2()
+        {
+            //  以等腰直角三角形的斜边为底
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int k = 0; k < 10 - i; k++)
+                {
+                    Console.Write("  ");
+                }
+
+                for (int j = 0; j <= i; j++)
+                {
+                    Console.Write(string.Format("{0,4}", a[i - j, 9 - j]));
                 }
                 Console.WriteLine();
             }
