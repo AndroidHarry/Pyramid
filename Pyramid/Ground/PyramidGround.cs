@@ -73,15 +73,22 @@ namespace Pyramid.Ground
 
         public override void Print()
         {
-            Console.WriteLine($"Layer{layerNum} Pyramid: {successCount}th success, {timer.Spend()}");
+            Console.WriteLine($"Layer-{layerNum} Pyramid: {successCount}th success, {timer.Spend()}");
             Console.WriteLine();
 
             for (int z = layerNum - 1; z >= 0; --z)
             {
-                Console.WriteLine($"Layer{z}:");
+                Console.WriteLine($"#{z+1}:");
+
+                string s = "";
+                for (int k = 0; k < z; k++)
+                {
+                    s+=" ";
+                }
 
                 for (int y = 0; y < layerNum - z; ++y)
                 {
+                    Console.Write(s);
                     for (int x = 0; x < layerNum - z; ++x)
                     {
                         Console.Write(string.Format("{0,3}", a[x, y, z]));

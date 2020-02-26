@@ -13,29 +13,25 @@ namespace Pyramid.Ground
     /// </summary>
     public class TriangleGround : IGround
     {
-        private int[,] a = new int[10, 10];
+        private const int _len = 10;
+
+        private int[,] a = new int[_len, _len];
 
         public override void Init()
         {
-            for (int y = 0; y < 10; ++y)
+            for (int y = 0; y < _len; ++y)
             {
-                for (int x = 0; x < 10; ++x)
+                for (int x = 0; x < _len; ++x)
                 {
                     a[x, y] = (x > y) ? -1 : 0;
                 }
             }
-
-            //a[0, 6] = a[0, 7] = a[0, 8] = a[0, 9] = a[1, 8] = 6;
-            //a[2, 8] = a[3, 8] = a[1, 9] = a[2, 9] = a[3, 9] = 9;
-
-            //a[0, 9] = a[1, 9] = a[2, 9] = a[3, 9] = a[2, 8] = 6;
-            //a[4, 9] = a[5, 9] = a[6, 9] = a[6, 8] = 11;
         }
 
         public override bool CanFill(Point point)
         {
             //  有效的格子
-            if (0 <= point.y && point.y < 10 && 0 <= point.x && point.x <= point.y)
+            if (0 <= point.y && point.y < _len && 0 <= point.x && point.x <= point.y)
             {
                 //  未被占用
                 return a[point.x, point.y] == 0;
@@ -67,7 +63,7 @@ namespace Pyramid.Ground
         {
             //  以等腰直角三角形的一条直角边为底
 
-            for (int y = 0; y < 10; ++y)
+            for (int y = 0; y < _len; ++y)
             {
                 for (int x = 0; x <= y; ++x)
                 {
@@ -82,16 +78,16 @@ namespace Pyramid.Ground
         {
             //  以等腰直角三角形的斜边为底
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _len; i++)
             {
-                for (int k = 0; k < 10 - i; k++)
+                for (int k = 0; k < _len - i; k++)
                 {
                     Console.Write("  ");
                 }
 
                 for (int j = 0; j <= i; j++)
                 {
-                    Console.Write(string.Format("{0,4}", a[i - j, 9 - j]));
+                    Console.Write(string.Format("{0,4}", a[i - j, _len - 1 - j]));
                 }
                 Console.WriteLine();
             }
@@ -100,7 +96,7 @@ namespace Pyramid.Ground
 
         public override bool SuccessFlag()
         {
-            for (int y = 0; y < 10; ++y)
+            for (int y = 0; y < _len; ++y)
             {
                 for (int x = 0; x <= y; ++x)
                 {
@@ -128,7 +124,7 @@ namespace Pyramid.Ground
                 }
             }
 
-            for (int y = point.y + 1; y < 10; ++y)
+            for (int y = point.y + 1; y < _len; ++y)
             {
                 for (int x = 0; x <= y; ++x)
                 {

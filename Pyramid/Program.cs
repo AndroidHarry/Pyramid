@@ -12,9 +12,9 @@ namespace Pyramid
             //Console.Read();
             //return;
 
-            DoTriangleGround();
+            // DoTriangleGround();
 
-            // DoPyramidGround();
+            DoPyramidGround();
 
             Console.Read();
         }
