@@ -26,7 +26,7 @@ namespace Pyramid.Ground
 
         public abstract void Fill(Point[] points, int v);
 
-        protected abstract bool FillBlock(Block.Block[] blocks, Point point);
+        protected abstract bool FillBlock(Block.IBlock[] blocks, Point point);
 
         public abstract void Print();
 
@@ -61,7 +61,7 @@ namespace Pyramid.Ground
         protected Point startPoint = new Point(0, 0);
 
 
-        public void Start(Block.Block[] blocks)
+        public void Start(Block.IBlock[] blocks)
         {
             timer.Start();
 

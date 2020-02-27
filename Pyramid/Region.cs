@@ -61,6 +61,35 @@ namespace Pyramid
             return iMaxLayer - iMinLayer;
         }
 
+        public bool CanFit(Point[] pt)
+        {
+            if (pt == null || pt.Length < 1 ||
+                this.points == null || this.points.Length != pt.Length)
+            {
+                return false;
+            }
+
+            bool bOK = false;
+            for (int i = 0; i < points.Length; ++i)
+            {
+                bOK = false;
+                for (int j = 0; j < pt.Length; ++j)
+                {
+                    if (pt[j].Equal(points[i]))
+                    {
+                        bOK = true;
+                        break;
+                    }
+                }
+                if (!bOK)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public void Print(string title)
         {
             if (points == null)

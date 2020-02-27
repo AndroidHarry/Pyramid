@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public class BlockWhite_12 : Block
+    public class BlockWhite_12 : IBlock
     {
-        public BlockWhite_12() : 
-            base(12,
+        public BlockWhite_12(bool bZAsc) : 
+            base(12, bZAsc, 
                 new int[,] {
                     { 1, 1, 1},
                     { 1, 0, 1},

@@ -21,7 +21,7 @@ namespace Pyramid
         private readonly int[,] mask;
 
         //  由几个单元（点）组成
-        private readonly int unitNum;
+        public readonly int unitNum;
 
 
         public RegionMaskGroup(int[,] mask)

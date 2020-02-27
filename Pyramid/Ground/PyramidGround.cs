@@ -192,7 +192,7 @@ namespace Pyramid.Ground
         /// <param name="blocks">可用积木的集合</param>
         /// <param name="point">当前要填充覆盖的点</param>
         /// <returns>是否能正确填完</returns>
-        protected override bool FillBlock(Block.Block[] blocks, Point point)
+        protected override bool FillBlock(Block.IBlock[] blocks, Point point)
         {
             bool bSuccess = SuccessFlag();
             if (bSuccess)
@@ -209,7 +209,7 @@ namespace Pyramid.Ground
 
             for (int b = 0; b < blocks.Length; ++b)
             {
-                Block.Block block = blocks[b];
+                Block.IBlock block = blocks[b];
 
                 //int iShapeAllCount = block.AllShapeCount();
 
@@ -254,7 +254,8 @@ namespace Pyramid.Ground
                             }
                             else
                             {
-                                Block.Block[] newblocks = blocks.CreateBlocksExcludeIndex(b);
+                                Block.IBlock[] newblocks = 
+                                    blocks.CreateBlocksExcludeIndex(block);
 
                                 FillBlock(newblocks, point);
 

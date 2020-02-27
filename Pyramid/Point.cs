@@ -45,5 +45,15 @@ namespace Pyramid
         {
             return new Point(a.x - b.x, a.y - b.y, a.z - b.z);
         }
+
+        public bool Equal(Point pt)
+        {
+            if (pt == null)
+            {
+                return false;
+            }
+
+            return (x == pt.x && y == pt.y && z == pt.z);
+        }
     }
 }

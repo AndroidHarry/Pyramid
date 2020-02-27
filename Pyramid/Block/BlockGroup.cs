@@ -4,68 +4,56 @@ using System.Text;
 
 namespace Pyramid.Block
 {
-    public static class BlockGroup
+    public static class ElementGroup
     {
-        public static Block[] CreateAll(bool bZAsc)
+        public static IBlock[] CreateBlocksExcludeIndex(
+            this IBlock[] blocks, IBlock excludeBlock)
         {
-            Block[] blocks = new Block[] {
-                new BlockPink2_4(),
-                new BlockRed1_1(), new BlockRed2_2(),
-                new BlockPurple_5(),
-                new BlockGreen1_6(),
-                new BlockGreen2_7(),
-                new BlockBlue1_8(), new BlockBlue2_9(),
-                new BlockYellow_10(),
-                new BlockGrey_11(),
-                new BlockPink1_3(),
-                new BlockWhite_12()
-            };
-
-            for (int i = 0; i < blocks.Length; ++i)
+            if (blocks != null && blocks.Length > 1 && excludeBlock != null)
             {
-                blocks[i].Init(bZAsc);
-            }
-
-            return blocks;
-        }
-
-        public static Block[] CreateBlocksExcludeIndex(this Block[] blocks, int excludeIdx)
-        {
-            if (blocks.Length > 1 && 0 <= excludeIdx && excludeIdx < blocks.Length)
-            {
-                Block[] newBlocks = new Block[blocks.Length - 1];
+                IBlock[] newBlocks = new IBlock[blocks.Length - 1];
+                bool bFound = false;
                 int j = 0;
 
                 for (int i = 0; i < blocks.Length; ++i)
                 {
-                    if (i != excludeIdx)
+                    if (blocks[i] != excludeBlock)
                     {
                         newBlocks[j++] = blocks[i];
                     }
+                    else
+                    {
+                        bFound = true;
+                    }
                 }
 
-                return newBlocks;
+                if (bFound)
+                {
+                    return newBlocks;
+                }
+                else
+                {
+                    return blocks;
+                }
             }
 
             return null;
         }
 
-        public static int GetBlockIndexByValue(this Block[] blocks, int value)
+        public static Point[] Duplicate(this Point[] pts)
         {
-            if (blocks == null || blocks.Length < 1)
+            if (pts == null || pts.Length < 1)
             {
-                return -1;
+                return null;
             }
 
-            for (int i = 0; i < blocks.Length; ++i)
+            Point[] newPts = new Point[pts.Length];
+            for (int i = 0; i < pts.Length; ++i)
             {
-                if (blocks[i].value == value)
-                {
-                    return i;
-                }
+                newPts[i] = new Point(pts[i]);
             }
 
-            return -1;
+            return newPts;
         }
     }
 }
