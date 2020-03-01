@@ -7,8 +7,30 @@ namespace Pyramid.Exercise
     public partial class ExecSet
     {
         private ExerciseInfo[] blockGroups_5 =
-            
+
             new ExerciseInfo[] {
+
+                new ExerciseInfo {
+                    title = "471",
+                    infos = new InitBlockInfo[]
+                    {
+                        new InitBlockInfo() {
+                            value = 10,
+                            points = new Point[] {
+                                new Point(0,0,0),
+                                new Point(0,1,0),
+                                new Point(1,1,0),
+                                new Point(1,0,0)
+                            }
+                        },
+                    }, 
+                    spInfo = new InitBlockInfo() {
+                        value = 4,
+                        points = new Point[] {
+                            new Point(2,0,0),
+                        }
+                    }
+                },
 
                 new ExerciseInfo {
                     title = "478", 
