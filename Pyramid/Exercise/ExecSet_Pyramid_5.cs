@@ -24,6 +24,12 @@ namespace Pyramid.Exercise
                                 new Point(2,0,0),
                             }
                         }
+                    }, 
+                    spInfo = new InitBlockInfo() {
+                        value = 4, 
+                        points = new Point[] {
+                            new Point(3,0,0),
+                        }
                     }
                 },
 

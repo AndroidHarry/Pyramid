@@ -1,4 +1,5 @@
 ﻿using Pyramid.Block;
+using Pyramid.Exercise;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -63,6 +64,13 @@ namespace Pyramid.Ground
 
         protected string prompt;
 
+        //  特殊放置点
+        protected InitBlockInfo initBlockSp;
+
+        public void SetInitBlockInfoSp(InitBlockInfo initBlockSp)
+        {
+            this.initBlockSp = initBlockSp;
+        }
 
         public void Start(Block.IBlock[] blocks, string prompt)
         {

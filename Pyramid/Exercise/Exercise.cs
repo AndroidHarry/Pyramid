@@ -34,11 +34,18 @@ namespace Pyramid.Exercise
             //    i = random.Next(execSet.GetInitBlockCount(layer));
             //    Console.Write("{0,3}", i);
             //}
-            
-            InitBlockInfo[] b = execSet.GetInitBlock(layer, title);
-            if (b != null)
+
+            ExerciseInfo i = execSet.GetInitBlock(layer, title);
+            if (i != null)
             {
-                return InitPutBlock(b);
+                if (i.spInfo != null)
+                {
+                    return InitPutBlockSp(i.spInfo) && InitPutBlock(i.infos);
+                }
+                else
+                {
+                    return InitPutBlock(i.infos);
+                }
             }
             else
             {
@@ -70,6 +77,12 @@ namespace Pyramid.Exercise
                     return false;
                 }
             }
+            return true;
+        }
+
+        private bool InitPutBlockSp(InitBlockInfo initBlock)
+        {
+            ground.SetInitBlockInfoSp(initBlock);
             return true;
         }
 

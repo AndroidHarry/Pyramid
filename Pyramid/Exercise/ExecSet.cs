@@ -24,7 +24,7 @@ namespace Pyramid.Exercise
             return "";
         }
 
-        public InitBlockInfo[] GetInitBlock(int layer, string title)
+        public ExerciseInfo GetInitBlock(int layer, string title)
         {
             ExerciseInfo[] b = GetInitBlockGroup(layer);
             if (b != null)
@@ -33,7 +33,7 @@ namespace Pyramid.Exercise
                 {
                     if (ei.title == title)
                     {
-                        return ei.infos;
+                        return ei;
                     }
                 }
             }

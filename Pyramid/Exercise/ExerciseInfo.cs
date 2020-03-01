@@ -11,5 +11,8 @@ namespace Pyramid.Exercise
 
         //  练习题的 初始化摆放
         public InitBlockInfo[] infos;
+
+        //  练习题的 特殊点摆放
+        public InitBlockInfo spInfo;
     }
 }

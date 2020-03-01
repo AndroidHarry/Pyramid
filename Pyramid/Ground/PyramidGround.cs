@@ -214,6 +214,12 @@ namespace Pyramid.Ground
             {
                 Block.IBlock block = blocks[b];
 
+                bool bSpecialBlock = false;
+                if (this.initBlockSp != null)
+                {
+                    bSpecialBlock = initBlockSp.value == block.value;
+                }
+
                 //int iShapeAllCount = block.AllShapeCount();
 
                 int iLessLayer = 1;
@@ -232,7 +238,30 @@ namespace Pyramid.Ground
                     {
                         Point[] points = r[t] + point;
 
-                        if (CanFill(points))
+                        bool bCanFill = CanFill(points);
+
+                        if (bCanFill && bSpecialBlock)
+                        {
+                            bCanFill = false;
+
+                            foreach (var pt in points)
+                            {
+                                foreach (var ptSpe in initBlockSp.points)
+                                {
+                                    if (ptSpe.Equal(pt))
+                                    {
+                                        bCanFill = true;
+                                        break;
+                                    }
+                                }
+                                if (bCanFill)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (bCanFill)
                         {
                             Fill(points, block.value);
 
