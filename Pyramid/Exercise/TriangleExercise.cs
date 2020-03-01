@@ -15,19 +15,21 @@ namespace Pyramid.Exercise
             ground = new TriangleGround();
         }
 
-        public override bool Init()
+        public override bool Init(string title)
         {
-            Console.WriteLine("Init:");
-
             ground.Init();
 
-            if (InitPutBlock(1))
+
+            if (InitPutBlock(1, title))
             {
-                ground.Print();
+                prompt = $"Triangle Exercise '{title}'";
+                ground.Print($"Init for {prompt} success:");
 
                 return true;
             }
 
+            prompt = $"Triangle Exercise";
+            ground.Print($"Init for {prompt} fail:");
             return false;
         }
     }

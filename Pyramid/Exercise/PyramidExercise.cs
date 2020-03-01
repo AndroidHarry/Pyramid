@@ -23,19 +23,20 @@ namespace Pyramid.Exercise
         }
 
 
-        public override bool Init()
+        public override bool Init(string title)
         {
-            Console.WriteLine("Init:");
-
             ground.Init();
 
-            if (InitPutBlock(layerNum))
+            if (InitPutBlock(layerNum, title))
             {
-                ground.Print();
+                prompt = $"Pyramid Layer-{layerNum} Exercise '{title}'";
+                ground.Print($"Init for {prompt} success:");
 
                 return true;
             }
 
+            prompt = $"Pyramid Layer-{layerNum} Exercise";
+            ground.Print($"Init for {prompt} fail:");
             return false;
         }
     }

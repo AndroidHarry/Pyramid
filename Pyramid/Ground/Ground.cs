@@ -28,19 +28,20 @@ namespace Pyramid.Ground
 
         protected abstract bool FillBlock(Block.IBlock[] blocks, Point point);
 
-        public abstract void Print();
+        public abstract void Print(string title);
 
         public bool CanContinue()
         {
             if (!bContinue)
                 return false;
 
-            Console.WriteLine("Press Enter to Continue, other key to Exit ");
+            Console.WriteLine("Press Enter to Continue, other key to Return ");
 
             string key = Console.ReadKey().Key.ToString();
             if (key == "Enter")
             {
                 bContinue = true;
+                Console.WriteLine($"computing {prompt} ...");
             }
             else
             {
@@ -60,12 +61,18 @@ namespace Pyramid.Ground
 
         protected Point startPoint = new Point(0, 0);
 
+        protected string prompt;
 
-        public void Start(Block.IBlock[] blocks)
+
+        public void Start(Block.IBlock[] blocks, string prompt)
         {
+            this.prompt = prompt;
+
             timer.Start();
 
             FillBlock(blocks, startPoint);
+
+            Console.WriteLine("end");
         }
     }
 }

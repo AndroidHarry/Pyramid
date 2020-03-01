@@ -12,15 +12,22 @@ namespace Pyramid.Exercise
 
         protected IGround ground = null;
 
-        private ExecSet execSet = new ExecSet();
+        protected string prompt = "";
+
+        private static ExecSet execSet = new ExecSet();
 
 
-        public abstract bool Init();
-
-        protected bool InitPutBlock(int layer)
+        public static string GetExerciseTitles(int layer)
         {
-            Random random = new Random();
-            int i = random.Next(execSet.GetInitBlockCount(layer));
+            return execSet.GetExerciseTitles(layer);
+        }
+
+        public abstract bool Init(string title);
+
+        protected bool InitPutBlock(int layer, string title)
+        {
+            //Random random = new Random();
+            //int i = random.Next(execSet.GetInitBlockCount(layer));
 
             //for (int j = 0; j < 10; ++j)
             //{
@@ -28,7 +35,7 @@ namespace Pyramid.Exercise
             //    Console.Write("{0,3}", i);
             //}
             
-            InitBlock[] b = execSet.GetInitBlock(layer, i);
+            InitBlockInfo[] b = execSet.GetInitBlock(layer, title);
             if (b != null)
             {
                 return InitPutBlock(b);
@@ -39,7 +46,7 @@ namespace Pyramid.Exercise
             }
         }
 
-        private bool InitPutBlock(InitBlock initBlock)
+        private bool InitPutBlock(InitBlockInfo initBlock)
         {
             IBlock block = GetBlockByValue(initBlock.value);
             if (block != null)
@@ -54,7 +61,7 @@ namespace Pyramid.Exercise
             return false;
         }
 
-        private bool InitPutBlock(InitBlock[] initBlock)
+        private bool InitPutBlock(InitBlockInfo[] initBlock)
         {
             for (int i = 0; i < initBlock.Length; ++i)
             {
@@ -71,9 +78,8 @@ namespace Pyramid.Exercise
         {
             if (ground != null && blocks != null)
             {
-                Console.WriteLine($"start:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
-                ground.Start(blocks);
-                Console.WriteLine($"end:  {DateTime.Now.ToString("HH:mm:ss.fff")}");
+                Console.WriteLine($"computing {prompt} ...");
+                ground.Start(blocks, prompt);
             }
         }
 

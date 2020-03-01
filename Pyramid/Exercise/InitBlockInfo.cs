@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Pyramid.Exercise
 {
-    public class InitBlock
+    public class InitBlockInfo
     {
         public int value;
         public Point[] points;

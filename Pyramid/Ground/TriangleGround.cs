@@ -50,12 +50,15 @@ namespace Pyramid.Ground
             // Print();
         }
 
-        public override void Print()
+        public override void Print(string title)
         {
-            Console.WriteLine($"Triangle: {successCount}th success, {timer.Spend()}");
+            if (!string.IsNullOrEmpty(title))
+            {
+                Console.WriteLine(title);
+            }
             Console.WriteLine();
 
-            Print1();
+            //  Print1();
             Print2();
         }
 
@@ -185,7 +188,7 @@ namespace Pyramid.Ground
                             {
                                 timer.End();
                                 ++successCount;
-                                Print();
+                                Print($"{prompt}: {successCount}th success, {timer.Spend()}");
 
                                 if (CanContinue())
                                 {

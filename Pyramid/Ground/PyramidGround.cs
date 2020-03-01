@@ -71,9 +71,12 @@ namespace Pyramid.Ground
             // Print();
         }
 
-        public override void Print()
+        public override void Print(string title)
         {
-            Console.WriteLine($"Layer-{layerNum} Pyramid: {successCount}th success, {timer.Spend()}");
+            if (!string.IsNullOrEmpty(title))
+            {
+                Console.WriteLine(title);
+            }
             Console.WriteLine();
 
             for (int z = layerNum - 1; z >= 0; --z)
@@ -239,7 +242,7 @@ namespace Pyramid.Ground
                             {
                                 timer.End();
                                 ++successCount;
-                                Print();
+                                Print($"{prompt}: {successCount}th success, {timer.Spend()}");
 
                                 if (CanContinue())
                                 {
