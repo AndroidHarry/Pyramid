@@ -1,5 +1,5 @@
 ﻿
-TBD
+Pyramid Intelligently
 
 
 把积木水平摆放时，最后拼成的是一个直角等腰三角形（记作三角形ABC,AB=AC,角A为直角）。
